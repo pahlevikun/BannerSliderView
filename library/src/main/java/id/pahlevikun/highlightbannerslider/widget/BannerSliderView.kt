@@ -19,7 +19,7 @@ import id.pahlevikun.highlightbannerslider.utils.BannerHelper.SnapOneByOnePagerH
 import id.pahlevikun.highlightbannerslider.utils.BannerHelper.dp2px
 import id.pahlevikun.highlightbannerslider.utils.BannerLayoutManager
 
-open class BannerSliderView @JvmOverloads constructor(context: Context,
+class BannerSliderView @JvmOverloads constructor(context: Context,
                                                  attrs: AttributeSet? = null,
                                                  defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
 
@@ -27,11 +27,11 @@ open class BannerSliderView @JvmOverloads constructor(context: Context,
         private const val WHAT_AUTO_PLAY = 1000
     }
 
-    private var indicatorContainer: RecyclerView? = null
     private var indicatorAdapter: IndicatorSliderAdapter? = null
-    private var mRecyclerView: RecyclerView? = null
+    private var recyclerViewIndicator: RecyclerView? = null
+    private var recyclerViewBanner: RecyclerView? = null
     private var adapter: RecyclerView.Adapter<*>? = null
-    private var mLayoutManager: BannerLayoutManager? = null
+    private var bannerLayoutManager: BannerLayoutManager? = null
 
     private var autoPlayDuration = 0
     private var bannerSize = 1
@@ -54,7 +54,7 @@ open class BannerSliderView @JvmOverloads constructor(context: Context,
             }
 
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
-                val first = mLayoutManager?.currentPosition
+                val first = bannerLayoutManager?.currentPosition
                 if (currentIndex != first) {
                     currentIndex = first ?: 0
                 }
@@ -69,9 +69,9 @@ open class BannerSliderView @JvmOverloads constructor(context: Context,
     private val mHandler: Handler by lazy {
         Handler(Handler.Callback { msg ->
             if (msg.what == WHAT_AUTO_PLAY) {
-                if (currentIndex == mLayoutManager?.currentPosition) {
+                if (currentIndex == bannerLayoutManager?.currentPosition) {
                     ++currentIndex
-                    mRecyclerView?.smoothScrollToPosition(currentIndex)
+                    recyclerViewBanner?.smoothScrollToPosition(currentIndex)
                     mHandler.sendEmptyMessageDelayed(WHAT_AUTO_PLAY, autoPlayDuration.toLong())
                     refreshIndicator()
                 }
@@ -118,16 +118,16 @@ open class BannerSliderView @JvmOverloads constructor(context: Context,
     }
 
     private fun initBannerSlider(orientation: Int) {
-        mRecyclerView = RecyclerView(context)
+        recyclerViewBanner = RecyclerView(context)
         val vpLayoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        addView(mRecyclerView, vpLayoutParams)
-        mLayoutManager = BannerLayoutManager(orientation, false)
-        mLayoutManager?.setItemSpace(itemSpace)
-        mLayoutManager?.setCenterScale(centerScale)
-        mLayoutManager?.setMoveSpeed(moveSpeed)
-        mRecyclerView?.layoutManager = mLayoutManager
+        addView(recyclerViewBanner, vpLayoutParams)
+        bannerLayoutManager = BannerLayoutManager(context, orientation, false)
+        bannerLayoutManager?.setItemSpace(itemSpace)
+        bannerLayoutManager?.setCenterScale(centerScale)
+        bannerLayoutManager?.setMoveSpeed(moveSpeed)
+        recyclerViewBanner?.layoutManager = bannerLayoutManager
         val snapHelper = SnapOneByOnePagerHelper()
-        snapHelper.attachToRecyclerView(mRecyclerView)
+        snapHelper.attachToRecyclerView(recyclerViewBanner)
     }
 
     private fun initIndicatorSlider(orientation: Int) {
@@ -136,17 +136,17 @@ open class BannerSliderView @JvmOverloads constructor(context: Context,
         val marginRight = dp2px(0)
         val marginBottom = dp2px(11)
         val gravity = GravityCompat.START
-        indicatorContainer = RecyclerView(context)
+        recyclerViewIndicator = RecyclerView(context)
         val indicatorLayoutManager = LinearLayoutManager(context, orientation, false)
-        indicatorContainer?.layoutManager = indicatorLayoutManager
+        recyclerViewIndicator?.layoutManager = indicatorLayoutManager
         indicatorAdapter = IndicatorSliderAdapter(bannerSize, indicatorMargin)
-        indicatorContainer?.adapter = indicatorAdapter
+        recyclerViewIndicator?.adapter = indicatorAdapter
         val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         params.gravity = Gravity.BOTTOM or gravity
         params.setMargins(marginLeft, 0, marginRight, marginBottom)
-        addView(indicatorContainer, params)
+        addView(recyclerViewIndicator, params)
         if (!showSliderIndicator) {
-            indicatorContainer?.visibility = View.GONE
+            recyclerViewIndicator?.visibility = View.GONE
         }
     }
 
@@ -157,22 +157,22 @@ open class BannerSliderView @JvmOverloads constructor(context: Context,
 
     fun setShowSliderIndicator(showSliderIndicator: Boolean) {
         this.showSliderIndicator = showSliderIndicator
-        indicatorContainer?.visibility = if (showSliderIndicator) View.VISIBLE else View.GONE
+        recyclerViewIndicator?.visibility = if (showSliderIndicator) View.VISIBLE else View.GONE
     }
 
     fun setCenterScale(centerScale: Float) {
         this.centerScale = centerScale
-        mLayoutManager?.setCenterScale(centerScale)
+        bannerLayoutManager?.setCenterScale(centerScale)
     }
 
     fun setMoveSpeed(moveSpeed: Float) {
         this.moveSpeed = moveSpeed
-        mLayoutManager?.setMoveSpeed(moveSpeed)
+        bannerLayoutManager?.setMoveSpeed(moveSpeed)
     }
 
     fun setItemSpace(itemSpace: Int) {
         this.itemSpace = itemSpace
-        mLayoutManager?.setItemSpace(itemSpace)
+        bannerLayoutManager?.setItemSpace(itemSpace)
     }
 
     fun setAutoPlayDuration(autoPlayDuration: Int) {
@@ -180,7 +180,7 @@ open class BannerSliderView @JvmOverloads constructor(context: Context,
     }
 
     fun setOrientation(orientation: Int) {
-        mLayoutManager?.orientation = orientation
+        bannerLayoutManager?.orientation = orientation
     }
 
     fun invalidateBanner() {
@@ -200,12 +200,12 @@ open class BannerSliderView @JvmOverloads constructor(context: Context,
     fun setAdapter(adapter: RecyclerView.Adapter<*>) {
         this.adapter = adapter
         hasInit = false
-        mRecyclerView?.adapter = adapter
+        recyclerViewBanner?.adapter = adapter
         bannerSize = adapter.itemCount
-        mLayoutManager?.infinite = bannerSize >= 3
+        bannerLayoutManager?.infinite = bannerSize >= 3
         isPlaying = true
-        mRecyclerView?.addOnScrollListener(bannerScrollListener)
-        mRecyclerView?.isNestedScrollingEnabled = false
+        recyclerViewBanner?.addOnScrollListener(bannerScrollListener)
+        recyclerViewBanner?.isNestedScrollingEnabled = false
         indicatorAdapter?.setItemSize(bannerSize)
         hasInit = true
     }

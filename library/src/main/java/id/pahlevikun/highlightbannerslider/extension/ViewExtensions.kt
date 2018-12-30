@@ -3,19 +3,13 @@ package id.pahlevikun.highlightbannerslider.extension
 import android.view.View
 
 fun View.makeGone() {
-    if (this != null) {
-        this.visibility = View.GONE
-    }
+    this.visibility = View.GONE
 }
 
 fun View.makeVisible() {
-    if (this != null) {
-        this.visibility = View.VISIBLE
-    }
+    this.visibility = View.VISIBLE
 }
 
 fun View.makeInvisible() {
-    if (this != null) {
-        this.visibility = View.INVISIBLE
-    }
+    this.visibility = View.INVISIBLE
 }

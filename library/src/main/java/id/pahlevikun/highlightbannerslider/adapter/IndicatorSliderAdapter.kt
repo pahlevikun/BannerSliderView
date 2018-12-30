@@ -11,7 +11,7 @@ import id.pahlevikun.highlightbannerslider.base.adapter.BaseAdapter
 import id.pahlevikun.highlightbannerslider.utils.BannerHelper.dp2px
 
 open class IndicatorSliderAdapter(private var bannerSize: Int,
-                             private var indicatorMargin: Int) : BaseAdapter<RecyclerView.ViewHolder, Int>() {
+                                  private var indicatorMargin: Int) : BaseAdapter<RecyclerView.ViewHolder, Int>() {
 
     private var currentPosition = 0
     private var mSelectedDrawable: Drawable? = null
@@ -48,8 +48,7 @@ open class IndicatorSliderAdapter(private var bannerSize: Int,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         val bannerPoint = ImageView(parent.context)
-        val lp = RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT)
+        val lp = RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         lp.setMargins(indicatorMargin, indicatorMargin, indicatorMargin, indicatorMargin)
         bannerPoint.layoutParams = lp
         return object : RecyclerView.ViewHolder(bannerPoint) {
@@ -60,7 +59,6 @@ open class IndicatorSliderAdapter(private var bannerSize: Int,
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val bannerPoint = holder.itemView as ImageView
         bannerPoint.setImageDrawable(if (currentPosition == position) mSelectedDrawable else mUnselectedDrawable)
-
     }
 
     override fun getItemCount(): Int {

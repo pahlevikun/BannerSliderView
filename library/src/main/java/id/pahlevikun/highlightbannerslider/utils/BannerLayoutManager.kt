@@ -1,5 +1,6 @@
 package id.pahlevikun.highlightbannerslider.utils
 
+import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
 import android.support.v4.view.ViewCompat
@@ -18,8 +19,9 @@ import java.util.*
  * Please make sure your child view have the same size.
  */
 
-class BannerLayoutManager(orientation: Int = HORIZONTAL,
-                          reverseLayout: Boolean = false) : RecyclerView.LayoutManager() {
+class BannerLayoutManager @JvmOverloads constructor(context: Context,
+                                                    orientation: Int = HORIZONTAL,
+                                                    reverseLayout: Boolean = false) : RecyclerView.LayoutManager() {
 
     companion object {
         private const val DETERMINE_BY_MAX_AND_MIN = -1

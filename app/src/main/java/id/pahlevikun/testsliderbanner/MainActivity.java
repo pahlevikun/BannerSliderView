@@ -11,32 +11,32 @@ import id.pahlevikun.highlightbannerslider.adapter.BannerSliderAdapter;
 import id.pahlevikun.highlightbannerslider.base.callback.BannerListener;
 import id.pahlevikun.highlightbannerslider.widget.BannerSliderView;
 
+
 public class MainActivity extends AppCompatActivity {
 
     BannerSliderAdapter bannerSliderAdapter;
-    BannerSliderView recyclerBanner;
+    BannerSliderView bannerSliderView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerBanner = findViewById(R.id.recycler);
+        bannerSliderView = findViewById(R.id.recycler);
 
         final List<String> list = new ArrayList<>();
+        list.add("http://img4.imgtn.bdimg.com/it/u=1794621527,1964098559&fm=27&gp=0.jpg");
         list.add("http://img0.imgtn.bdimg.com/it/u=1352823040,1166166164&fm=27&gp=0.jpg");
         list.add("http://img3.imgtn.bdimg.com/it/u=2293177440,3125900197&fm=27&gp=0.jpg");
         list.add("http://img3.imgtn.bdimg.com/it/u=3967183915,4078698000&fm=27&gp=0.jpg");
         list.add("http://img0.imgtn.bdimg.com/it/u=3184221534,2238244948&fm=27&gp=0.jpg");
-        list.add("http://img4.imgtn.bdimg.com/it/u=1794621527,1964098559&fm=27&gp=0.jpg");
-        list.add("http://img4.imgtn.bdimg.com/it/u=1243617734,335916716&fm=27&gp=0.jpg");
 
-        bannerSliderAdapter = new BannerSliderAdapter(list, 300, 600, new BannerListener<String>() {
+        bannerSliderAdapter = new BannerSliderAdapter(list, new BannerListener<String>() {
             @Override
             public void onItemClick(int position, String data) {
-                Toast.makeText(MainActivity.this, "POSISI ANDA " + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Position " + position, Toast.LENGTH_SHORT).show();
             }
         });
-        recyclerBanner.setAdapter(bannerSliderAdapter);
+        bannerSliderView.setAdapter(bannerSliderAdapter);
     }
 }
