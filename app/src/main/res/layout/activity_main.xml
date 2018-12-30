@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <id.pahlevikun.highlightbannerslider.widget.BannerSliderView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:autoStartMovement="true"
+        app:scaleCenterBanner="1.1"
+        app:bannerSpace="50"
+        app:interval="2000"
+        app:orientation="horizontal"
+        app:movementSpeed="1"
+        app:showSliderIndicator="true" />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="interval" format="integer"/>
+    <attr name="showSliderIndicator" format="boolean"/>
+    <attr name="orientation" format="enum">
+        <enum name="horizontal" value="0"/>
+        <enum name="vertical" value="1"/>
+    </attr>
+    <attr name="autoStartMovement" format="boolean"/>
+
+    <declare-styleable name="BannerSliderView">
+        <attr name="interval" />
+        <attr name="showSliderIndicator" />
+        <attr name="orientation" />
+        <attr name="autoStartMovement"/>
+        <attr name="bannerSpace" format="integer"/>
+        <attr name="scaleCenterBanner" format="float"/>
+        <attr name="movementSpeed" format="float"/>
+    </declare-styleable>
+
+</resources>
