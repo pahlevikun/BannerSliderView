@@ -10,7 +10,7 @@ import id.pahlevikun.highlightbannerslider.base.adapter.BaseAdapter
 import id.pahlevikun.highlightbannerslider.base.callback.BannerListener
 import kotlinx.android.synthetic.main.layout_banner_slider_view.view.*
 
-class BannerSliderAdapter(imageUrlList: MutableList<String>,
+open class BannerSliderAdapter(imageUrlList: MutableList<String>,
                           private val cardHeight: Int,
                           private val cardWidth: Int,
                           private val bannerListener: BannerListener<String>) : BaseAdapter<RecyclerView.ViewHolder, String>() {

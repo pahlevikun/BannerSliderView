@@ -10,7 +10,7 @@ import android.widget.ImageView
 import id.pahlevikun.highlightbannerslider.base.adapter.BaseAdapter
 import id.pahlevikun.highlightbannerslider.utils.BannerHelper.dp2px
 
-class IndicatorSliderAdapter(private var bannerSize: Int,
+open class IndicatorSliderAdapter(private var bannerSize: Int,
                              private var indicatorMargin: Int) : BaseAdapter<RecyclerView.ViewHolder, Int>() {
 
     private var currentPosition = 0

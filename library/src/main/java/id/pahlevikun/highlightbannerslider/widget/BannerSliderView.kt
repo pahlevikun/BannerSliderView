@@ -19,7 +19,7 @@ import id.pahlevikun.highlightbannerslider.utils.BannerHelper.SnapOneByOnePagerH
 import id.pahlevikun.highlightbannerslider.utils.BannerHelper.dp2px
 import id.pahlevikun.highlightbannerslider.utils.BannerLayoutManager
 
-class BannerSliderView @JvmOverloads constructor(context: Context,
+open class BannerSliderView @JvmOverloads constructor(context: Context,
                                                  attrs: AttributeSet? = null,
                                                  defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
 
